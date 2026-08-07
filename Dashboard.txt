@@ -1,0 +1,196 @@
+views:
+  - title: Cameras
+    type: panel
+    cards:
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Rear
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+            card:
+              type: picture-entity
+              entity: camera.door_snapshot
+              camera_image: camera.door_snapshot
+              name: Door
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Rear
+          - type: conditional
+            conditions:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: Rear
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: All
+            card:
+              type: picture-entity
+              entity: camera.door_live_view
+              camera_image: camera.door_live_view
+              camera_view: live
+              name: Door • LIVE
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Rear
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Rear
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+            card:
+              type: picture-entity
+              entity: camera.shed_snapshot
+              camera_image: camera.shed_snapshot
+              name: Shed
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Rear
+          - type: conditional
+            conditions:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: Rear
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: All
+            card:
+              type: picture-entity
+              entity: camera.shed_live_view
+              camera_image: camera.shed_live_view
+              camera_view: live
+              name: Shed • LIVE
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Rear
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Front
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+            card:
+              type: picture-entity
+              entity: camera.front_snapshot
+              camera_image: camera.front_snapshot
+              name: Front
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Front
+          - type: conditional
+            conditions:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: Front
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: All
+            card:
+              type: picture-entity
+              entity: camera.front_live_view
+              camera_image: camera.front_live_view
+              camera_view: live
+              name: Front • LIVE
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Front
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Rear
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+            card:
+              type: picture-entity
+              entity: camera.side_snapshot
+              camera_image: camera.side_snapshot
+              name: Side
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Rear
+          - type: conditional
+            conditions:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: Rear
+                  - condition: state
+                    entity: input_select.live_camera
+                    state: All
+            card:
+              type: picture-entity
+              entity: camera.side_live_view
+              camera_image: camera.side_live_view
+              camera_view: live
+              name: Side • LIVE
+              show_name: true
+              show_state: false
+              aspect_ratio: "16:9"
+              fit_mode: cover
+              tap_action:
+                action: perform-action
+                perform_action: script.manual_ring_camera_live
+                data:
+                  camera: Rear
