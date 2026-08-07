@@ -17,3 +17,10 @@ Date: 2026-08-06
 ### Improved
 - Dashboard now resembles a commercial security console.
 - Replaced "Rear" terminology with descriptive activity messages.
+
+## v1.4.0 — Camera Console Foundation
+- Added second Camera Console view
+- Added Back Steps and Deck exterior snapshots
+- Added Living Room, Kitchen, and Basement standby cards
+- Added Mushroom-based console styling
+- Standardized interior card layout and heights
