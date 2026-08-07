@@ -21,6 +21,11 @@ Ring-MQTT
 Home Assistant installed on BMAX PC (Sara Bracha's old laptop)
 
 
-Purpose
--------
-Dedicated wall-mounted touchscreen security console.
+Design Principles
+
+Security page is optimized for immediate awareness.
+Cameras page is optimized for manual inspection.
+Frequently used cameras are always visible.
+Interior cameras remain off unless explicitly requested.
+Every screen should be usable from across the room.
+Touch interactions should require no more than one tap.
