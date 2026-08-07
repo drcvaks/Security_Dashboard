@@ -30,3 +30,10 @@ Date: 2026-08-06
 - Added conditional standby/live card switching
 - Added tap-to-stop behavior
 - Confirmed direct helper control works without an intermediary script
+
+## v1.4.2 — All Interior Cameras Live
+- Added tap-to-live behavior for Living Room
+- Added tap-to-live behavior for Kitchen
+- Added tap-to-live behavior for Basement
+- Added tap-to-stop behavior for each interior camera
+- Standardized interior camera interaction using `input_select.interior_live_camera`
