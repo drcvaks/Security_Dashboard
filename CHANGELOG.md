@@ -24,3 +24,9 @@ Date: 2026-08-06
 - Added Living Room, Kitchen, and Basement standby cards
 - Added Mushroom-based console styling
 - Standardized interior card layout and heights
+
+## v1.4.1 — Living Room Live View
+- Added tap-to-live behavior for Living Room
+- Added conditional standby/live card switching
+- Added tap-to-stop behavior
+- Confirmed direct helper control works without an intermediary script
