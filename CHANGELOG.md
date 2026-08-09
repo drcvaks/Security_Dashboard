@@ -85,3 +85,9 @@ Date: 2026-08-06
 - Added horizontal left/right navigation
 - Added temporary pagination indicators for Security and Camera Console
 - Preserved all existing camera, alarm, interior live-view, timeout, and doorbell takeover behavior
+
+## v1.4.5 — modification
+
+### Fixed
+- Corrected Doorbell Takeover to display `camera.front_live_view`
+- Previously the takeover incorrectly displayed the side-door camera

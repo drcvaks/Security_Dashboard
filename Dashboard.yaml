@@ -19,8 +19,8 @@ views:
           - type: markdown
             content: '## 🔔 FRONT DOOR • LIVE'
           - type: picture-entity
-            entity: camera.door_live_view
-            camera_image: camera.door_live_view
+            entity: camera.front_live_view
+            camera_image: camera.front_live_view
             camera_view: live
             name: Front Door • LIVE
             show_name: true
@@ -267,8 +267,8 @@ views:
             subtitle: Doorbell • Live View
             alignment: center
           - type: picture-entity
-            entity: camera.door_live_view
-            camera_image: camera.door_live_view
+            entity: camera.front_live_view
+            camera_image: camera.front_live_view
             camera_view: live
             name: Front Door • LIVE
             show_name: true
