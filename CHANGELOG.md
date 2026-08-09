@@ -76,3 +76,12 @@ Date: 2026-08-06
 - Changed primary camera cards from 16:9 to 16:8
 - Ensured the complete 2×2 camera grid and camera labels remain visible
 - Maintained Chrome at 100% zoom for normal text readability
+
+## v1.4.5 — Swipe Navigation
+
+### Added
+- Added touchscreen swipe navigation between Security Console and Camera Console
+- Combined both console screens into one kiosk-friendly swipe interface
+- Added horizontal left/right navigation
+- Added temporary pagination indicators for Security and Camera Console
+- Preserved all existing camera, alarm, interior live-view, timeout, and doorbell takeover behavior

@@ -1,455 +1,457 @@
 views:
-- title: Cameras
+- title: Security Cameras
   type: panel
   icon: mdi:shield-home
   cards:
-  - type: vertical-stack
+  - type: custom:simple-swipe-card
+    view_mode: single
     cards:
-    - type: conditional
-      conditions:
-      - condition: state
-        entity: input_boolean.doorbell_takeover
-        state: 'on'
-      card:
-        type: vertical-stack
-        cards:
-        - type: markdown
-          content: '## 🔔 FRONT DOOR • LIVE'
-        - type: picture-entity
-          entity: camera.door_live_view
-          camera_image: camera.door_live_view
-          camera_view: live
-          name: Front Door • LIVE
-          show_name: true
-          show_state: false
-          aspect_ratio: '16:8'
-          fit_mode: cover
-          tap_action:
-            action: more-info
-    - type: conditional
-      conditions:
-      - condition: state
-        entity: input_boolean.doorbell_takeover
-        state: 'off'
-      card:
-        type: vertical-stack
-        cards:
-        - type: horizontal-stack
+    - type: vertical-stack
+      cards:
+      - type: conditional
+        conditions:
+        - condition: state
+          entity: input_boolean.doorbell_takeover
+          state: 'on'
+        card:
+          type: vertical-stack
           cards:
-          - type: clock
-            clock_style: digital
-            clock_size: small
-            time_format: '12'
-            show_seconds: false
-            no_background: false
           - type: markdown
-            entity_id:
-            - input_select.live_camera
-            card_size: 1
-            content: '{% set mode = states(''input_select.live_camera'') %}
-
-              {% if mode == ''Rear'' %} ## 🔴 DOOR • SIDE • SHED LIVE {% elif mode == ''Front'' %} ## 🔴 FRONT LIVE {% elif mode == ''All'' %} ## 🔴 ALL CAMERAS LIVE {% else %} ## 🟢 MONITORING {% endif %}'
-          - type: markdown
-            entity_id:
-            - alarm_control_panel.home_alarm
-            card_size: 1
-            content: '{% set alarm = states(''alarm_control_panel.home_alarm'') %}
-
-              {% if alarm == ''armed_home'' %} ## 🏠 ARMED HOME {% elif alarm == ''armed_away'' %} ## 🛡️ ARMED AWAY {% elif alarm == ''armed_night'' %} ## 🌙 ARMED NIGHT {% elif alarm == ''arming'' %} ## ⏳ ARMING {% elif alarm == ''pending'' %} ## ⏳ ENTRY DELAY {% elif alarm == ''triggered'' %} ## 🚨 ALARM TRIGGERED {% elif alarm == ''unavailable'' %} ## ⚠️ ALARM UNAVAILABLE {% else %} ## 🔓 DISARMED {% endif %}'
-        - type: grid
-          columns: 2
-          square: false
-          cards:
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.live_camera
-              state_not: Rear
-            - condition: state
-              entity: input_select.live_camera
-              state_not: All
-            card:
-              type: picture-entity
-              entity: camera.door_snapshot
-              camera_image: camera.door_snapshot
-              name: Door
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Rear
-          - type: conditional
-            conditions:
-            - condition: or
-              conditions:
-              - condition: state
-                entity: input_select.live_camera
-                state: Rear
-              - condition: state
-                entity: input_select.live_camera
-                state: All
-            card:
-              type: picture-entity
-              entity: camera.door_live_view
-              camera_image: camera.door_live_view
-              camera_view: live
-              name: Door • LIVE
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Rear
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.live_camera
-              state_not: Rear
-            - condition: state
-              entity: input_select.live_camera
-              state_not: All
-            card:
-              type: picture-entity
-              entity: camera.shed_snapshot
-              camera_image: camera.shed_snapshot
-              name: Shed
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Rear
-          - type: conditional
-            conditions:
-            - condition: or
-              conditions:
-              - condition: state
-                entity: input_select.live_camera
-                state: Rear
-              - condition: state
-                entity: input_select.live_camera
-                state: All
-            card:
-              type: picture-entity
-              entity: camera.shed_live_view
-              camera_image: camera.shed_live_view
-              camera_view: live
-              name: Shed • LIVE
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Rear
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.live_camera
-              state_not: Front
-            - condition: state
-              entity: input_select.live_camera
-              state_not: All
-            card:
-              type: picture-entity
-              entity: camera.front_snapshot
-              camera_image: camera.front_snapshot
-              name: Front
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Front
-          - type: conditional
-            conditions:
-            - condition: or
-              conditions:
-              - condition: state
-                entity: input_select.live_camera
-                state: Front
-              - condition: state
-                entity: input_select.live_camera
-                state: All
-            card:
-              type: picture-entity
-              entity: camera.front_live_view
-              camera_image: camera.front_live_view
-              camera_view: live
-              name: Front • LIVE
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Front
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.live_camera
-              state_not: Rear
-            - condition: state
-              entity: input_select.live_camera
-              state_not: All
-            card:
-              type: picture-entity
-              entity: camera.side_snapshot
-              camera_image: camera.side_snapshot
-              name: Side
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Rear
-          - type: conditional
-            conditions:
-            - condition: or
-              conditions:
-              - condition: state
-                entity: input_select.live_camera
-                state: Rear
-              - condition: state
-                entity: input_select.live_camera
-                state: All
-            card:
-              type: picture-entity
-              entity: camera.side_live_view
-              camera_image: camera.side_live_view
-              camera_view: live
-              name: Side • LIVE
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:8'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: script.manual_ring_camera_live
-                data:
-                  camera: Rear
-- title: Camera Console
-  path: camera-console
-  icon: mdi:cctv
-  type: sections
-  max_columns: 1
-  sections:
-  - type: grid
-    cards:
-    - type: conditional
-      conditions:
-      - condition: state
-        entity: input_boolean.doorbell_takeover
-        state: 'on'
-      card:
-        type: vertical-stack
-        cards:
-        - type: custom:mushroom-title-card
-          title: 🔔 FRONT DOOR
-          subtitle: Doorbell • Live View
-          alignment: center
-        - type: picture-entity
-          entity: camera.door_live_view
-          camera_image: camera.door_live_view
-          camera_view: live
-          name: Front Door • LIVE
-          show_name: true
-          show_state: false
-          aspect_ratio: '16:9'
-          fit_mode: cover
-          tap_action:
-            action: more-info
-      grid_options:
-        columns: 12
-        rows: auto
-    - type: conditional
-      conditions:
-      - condition: state
-        entity: input_boolean.doorbell_takeover
-        state: 'off'
-      card:
-        type: vertical-stack
-        cards:
-        - type: custom:mushroom-title-card
-          title: 📷 CAMERA CONSOLE
-          subtitle: Exterior Ready • Interior Standby
-          alignment: start
-        - type: custom:mushroom-title-card
-          title: Exterior Cameras
-          alignment: start
-        - type: grid
-          columns: 2
-          square: false
-          cards:
+            content: '## 🔔 FRONT DOOR • LIVE'
           - type: picture-entity
-            entity: camera.back_steps_snapshot
-            camera_image: camera.back_steps_snapshot
-            name: Back Steps
+            entity: camera.door_live_view
+            camera_image: camera.door_live_view
+            camera_view: live
+            name: Front Door • LIVE
             show_name: true
             show_state: false
-            camera_view: auto
+            aspect_ratio: '16:8'
+            fit_mode: cover
+            tap_action:
+              action: more-info
+      - type: conditional
+        conditions:
+        - condition: state
+          entity: input_boolean.doorbell_takeover
+          state: 'off'
+        card:
+          type: vertical-stack
+          cards:
+          - type: horizontal-stack
+            cards:
+            - type: clock
+              clock_style: digital
+              clock_size: small
+              time_format: '12'
+              show_seconds: false
+              no_background: false
+            - type: markdown
+              entity_id:
+              - input_select.live_camera
+              card_size: 1
+              content: '{% set mode = states(''input_select.live_camera'') %}
+
+                {% if mode == ''Rear'' %} ## 🔴 DOOR • SIDE • SHED LIVE {% elif mode == ''Front'' %} ## 🔴 FRONT LIVE {% elif mode == ''All'' %} ## 🔴 ALL CAMERAS LIVE {% else %} ## 🟢 MONITORING {% endif %}'
+            - type: markdown
+              entity_id:
+              - alarm_control_panel.home_alarm
+              card_size: 1
+              content: '{% set alarm = states(''alarm_control_panel.home_alarm'') %}
+
+                {% if alarm == ''armed_home'' %} ## 🏠 ARMED HOME {% elif alarm == ''armed_away'' %} ## 🛡️ ARMED AWAY {% elif alarm == ''armed_night'' %} ## 🌙 ARMED NIGHT {% elif alarm == ''arming'' %} ## ⏳ ARMING {% elif alarm == ''pending'' %} ## ⏳ ENTRY DELAY {% elif alarm == ''triggered'' %} ## 🚨 ALARM TRIGGERED {% elif alarm == ''unavailable'' %} ## ⚠️ ALARM UNAVAILABLE {% else %} ## 🔓 DISARMED {% endif %}'
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Rear
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+              card:
+                type: picture-entity
+                entity: camera.door_snapshot
+                camera_image: camera.door_snapshot
+                name: Door
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Rear
+            - type: conditional
+              conditions:
+              - condition: or
+                conditions:
+                - condition: state
+                  entity: input_select.live_camera
+                  state: Rear
+                - condition: state
+                  entity: input_select.live_camera
+                  state: All
+              card:
+                type: picture-entity
+                entity: camera.door_live_view
+                camera_image: camera.door_live_view
+                camera_view: live
+                name: Door • LIVE
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Rear
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Rear
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+              card:
+                type: picture-entity
+                entity: camera.shed_snapshot
+                camera_image: camera.shed_snapshot
+                name: Shed
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Rear
+            - type: conditional
+              conditions:
+              - condition: or
+                conditions:
+                - condition: state
+                  entity: input_select.live_camera
+                  state: Rear
+                - condition: state
+                  entity: input_select.live_camera
+                  state: All
+              card:
+                type: picture-entity
+                entity: camera.shed_live_view
+                camera_image: camera.shed_live_view
+                camera_view: live
+                name: Shed • LIVE
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Rear
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Front
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+              card:
+                type: picture-entity
+                entity: camera.front_snapshot
+                camera_image: camera.front_snapshot
+                name: Front
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Front
+            - type: conditional
+              conditions:
+              - condition: or
+                conditions:
+                - condition: state
+                  entity: input_select.live_camera
+                  state: Front
+                - condition: state
+                  entity: input_select.live_camera
+                  state: All
+              card:
+                type: picture-entity
+                entity: camera.front_live_view
+                camera_image: camera.front_live_view
+                camera_view: live
+                name: Front • LIVE
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Front
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.live_camera
+                state_not: Rear
+              - condition: state
+                entity: input_select.live_camera
+                state_not: All
+              card:
+                type: picture-entity
+                entity: camera.side_snapshot
+                camera_image: camera.side_snapshot
+                name: Side
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Rear
+            - type: conditional
+              conditions:
+              - condition: or
+                conditions:
+                - condition: state
+                  entity: input_select.live_camera
+                  state: Rear
+                - condition: state
+                  entity: input_select.live_camera
+                  state: All
+              card:
+                type: picture-entity
+                entity: camera.side_live_view
+                camera_image: camera.side_live_view
+                camera_view: live
+                name: Side • LIVE
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:8'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: script.manual_ring_camera_live
+                  data:
+                    camera: Rear
+      pagination_icon: mdi:shield-home
+    - type: vertical-stack
+      cards:
+      - type: conditional
+        conditions:
+        - condition: state
+          entity: input_boolean.doorbell_takeover
+          state: 'on'
+        card:
+          type: vertical-stack
+          cards:
+          - type: custom:mushroom-title-card
+            title: 🔔 FRONT DOOR
+            subtitle: Doorbell • Live View
+            alignment: center
+          - type: picture-entity
+            entity: camera.door_live_view
+            camera_image: camera.door_live_view
+            camera_view: live
+            name: Front Door • LIVE
+            show_name: true
+            show_state: false
             aspect_ratio: '16:9'
             fit_mode: cover
             tap_action:
               action: more-info
-          - type: picture-entity
-            entity: camera.deck_snapshot
-            camera_image: camera.deck_snapshot
-            name: Deck
-            show_name: true
-            show_state: false
-            camera_view: auto
-            aspect_ratio: '16:9'
-            fit_mode: cover
-            tap_action:
-              action: more-info
-        - type: custom:mushroom-title-card
-          title: Interior Cameras
-          subtitle: Tap a camera to view live
-          alignment: start
-        - type: vertical-stack
+      - type: conditional
+        conditions:
+        - condition: state
+          entity: input_boolean.doorbell_takeover
+          state: 'off'
+        card:
+          type: vertical-stack
           cards:
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.interior_live_camera
-              state_not: Living Room
-            card:
-              type: custom:mushroom-template-card
-              primary: Living Room
-              secondary: ⚫ Camera Off • Tap to View Live
-              icon: mdi:sofa
-              icon_color: disabled
-              fill_container: true
-              tap_action:
-                action: perform-action
-                perform_action: script.interior_camera_live
-                data:
-                  camera: Living Room
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.interior_live_camera
-              state: Living Room
-            card:
-              type: picture-entity
-              entity: camera.living_room_live_view
-              camera_image: camera.living_room_live_view
-              camera_view: live
-              name: Living Room • LIVE
+          - type: custom:mushroom-title-card
+            title: 📷 CAMERA CONSOLE
+            subtitle: Exterior Ready • Interior Standby
+            alignment: start
+          - type: custom:mushroom-title-card
+            title: Exterior Cameras
+            alignment: start
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+            - type: picture-entity
+              entity: camera.back_steps_snapshot
+              camera_image: camera.back_steps_snapshot
+              name: Back Steps
               show_name: true
               show_state: false
+              camera_view: auto
               aspect_ratio: '16:9'
               fit_mode: cover
               tap_action:
-                action: perform-action
-                perform_action: input_select.select_option
-                target:
-                  entity_id: input_select.interior_live_camera
-                data:
-                  option: None
-        - type: vertical-stack
-          cards:
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.interior_live_camera
-              state_not: Kitchen
-            card:
-              type: custom:mushroom-template-card
-              primary: Kitchen
-              secondary: ⚫ Camera Off • Tap to View Live
-              icon: mdi:silverware-fork-knife
-              icon_color: disabled
-              fill_container: true
-              tap_action:
-                action: perform-action
-                perform_action: script.interior_camera_live
-                data:
-                  camera: Kitchen
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.interior_live_camera
-              state: Kitchen
-            card:
-              type: picture-entity
-              entity: camera.kitchen_live_view
-              camera_image: camera.kitchen_live_view
-              camera_view: live
-              name: Kitchen • LIVE
+                action: more-info
+            - type: picture-entity
+              entity: camera.deck_snapshot
+              camera_image: camera.deck_snapshot
+              name: Deck
               show_name: true
               show_state: false
+              camera_view: auto
               aspect_ratio: '16:9'
               fit_mode: cover
               tap_action:
-                action: perform-action
-                perform_action: input_select.select_option
-                target:
-                  entity_id: input_select.interior_live_camera
-                data:
-                  option: None
-        - type: vertical-stack
-          cards:
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.interior_live_camera
-              state_not: Basement
-            card:
-              type: custom:mushroom-template-card
-              primary: Basement
-              secondary: ⚫ Camera Off • Tap to View Live
-              icon: mdi:stairs-down
-              icon_color: disabled
-              fill_container: true
-              tap_action:
-                action: perform-action
-                perform_action: script.interior_camera_live
-                data:
-                  camera: Basement
-          - type: conditional
-            conditions:
-            - condition: state
-              entity: input_select.interior_live_camera
-              state: Basement
-            card:
-              type: picture-entity
-              entity: camera.basement_live_view
-              camera_image: camera.basement_live_view
-              camera_view: live
-              name: Basement • LIVE
-              show_name: true
-              show_state: false
-              aspect_ratio: '16:9'
-              fit_mode: cover
-              tap_action:
-                action: perform-action
-                perform_action: input_select.select_option
-                target:
-                  entity_id: input_select.interior_live_camera
-                data:
-                  option: None
-      grid_options:
-        columns: 12
-        rows: auto
+                action: more-info
+          - type: custom:mushroom-title-card
+            title: Interior Cameras
+            subtitle: Tap a camera to view live
+            alignment: start
+          - type: vertical-stack
+            cards:
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.interior_live_camera
+                state_not: Living Room
+              card:
+                type: custom:mushroom-template-card
+                primary: Living Room
+                secondary: ⚫ Camera Off • Tap to View Live
+                icon: mdi:sofa
+                icon_color: disabled
+                fill_container: true
+                tap_action:
+                  action: perform-action
+                  perform_action: script.interior_camera_live
+                  data:
+                    camera: Living Room
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.interior_live_camera
+                state: Living Room
+              card:
+                type: picture-entity
+                entity: camera.living_room_live_view
+                camera_image: camera.living_room_live_view
+                camera_view: live
+                name: Living Room • LIVE
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:9'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: input_select.select_option
+                  target:
+                    entity_id: input_select.interior_live_camera
+                  data:
+                    option: None
+          - type: vertical-stack
+            cards:
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.interior_live_camera
+                state_not: Kitchen
+              card:
+                type: custom:mushroom-template-card
+                primary: Kitchen
+                secondary: ⚫ Camera Off • Tap to View Live
+                icon: mdi:silverware-fork-knife
+                icon_color: disabled
+                fill_container: true
+                tap_action:
+                  action: perform-action
+                  perform_action: script.interior_camera_live
+                  data:
+                    camera: Kitchen
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.interior_live_camera
+                state: Kitchen
+              card:
+                type: picture-entity
+                entity: camera.kitchen_live_view
+                camera_image: camera.kitchen_live_view
+                camera_view: live
+                name: Kitchen • LIVE
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:9'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: input_select.select_option
+                  target:
+                    entity_id: input_select.interior_live_camera
+                  data:
+                    option: None
+          - type: vertical-stack
+            cards:
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.interior_live_camera
+                state_not: Basement
+              card:
+                type: custom:mushroom-template-card
+                primary: Basement
+                secondary: ⚫ Camera Off • Tap to View Live
+                icon: mdi:stairs-down
+                icon_color: disabled
+                fill_container: true
+                tap_action:
+                  action: perform-action
+                  perform_action: script.interior_camera_live
+                  data:
+                    camera: Basement
+            - type: conditional
+              conditions:
+              - condition: state
+                entity: input_select.interior_live_camera
+                state: Basement
+              card:
+                type: picture-entity
+                entity: camera.basement_live_view
+                camera_image: camera.basement_live_view
+                camera_view: live
+                name: Basement • LIVE
+                show_name: true
+                show_state: false
+                aspect_ratio: '16:9'
+                fit_mode: cover
+                tap_action:
+                  action: perform-action
+                  perform_action: input_select.select_option
+                  target:
+                    entity_id: input_select.interior_live_camera
+                  data:
+                    option: None
+      pagination_icon: mdi:cctv
+    show_pagination: true
+    auto_hide_pagination: 3000
+    card_spacing: 0
+    loop_mode: none
+    swipe_direction: horizontal
+    swipe_behavior: single
+    swipe_effect: slide
+    scroll_strategy: js
+    enable_auto_swipe: false
