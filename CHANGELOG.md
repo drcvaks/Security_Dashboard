@@ -43,3 +43,28 @@ Date: 2026-08-06
 - Preserved tap-to-stop behavior
 - Restarted timeout when switching between interior cameras
 - Centralized interior camera timing in `script.interior_camera_live`
+
+## v1.4.4 — Doorbell Takeover
+
+### Added
+- Added automatic Doorbell Takeover triggered by `binary_sensor.front_ding`
+- Added `input_boolean.doorbell_takeover` helper to control takeover state
+- Doorbell press displays the Front Door live camera for 30 seconds
+- Doorbell Takeover works from both the Security Console and Camera Console
+- Normal dashboard automatically returns after the takeover ends
+- Repeated doorbell presses restart the 30-second takeover timer
+
+### Improved
+- Reworked Camera Console interior camera layout
+- Grouped each interior camera's standby and live states into a single card stack
+- Removed large gaps between Living Room, Kitchen, and Basement cards
+- Removed duplicate Living Room card introduced during layout restructuring
+- Preserved 10-minute interior camera timeout and tap-to-stop behavior
+
+### Entities / Helpers
+- `binary_sensor.front_ding`
+- `input_boolean.doorbell_takeover`
+- `camera.door_live_view`
+
+### Automation
+- `Doorbell → Full Screen`
