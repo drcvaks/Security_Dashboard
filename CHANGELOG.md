@@ -68,3 +68,11 @@ Date: 2026-08-06
 
 ### Automation
 - `Doorbell → Full Screen`
+
+## v1.4.4 - modification
+
+### Display Optimization
+- Optimized Security Console for the ASUS 1080p touchscreen
+- Changed primary camera cards from 16:9 to 16:8
+- Ensured the complete 2×2 camera grid and camera labels remain visible
+- Maintained Chrome at 100% zoom for normal text readability
