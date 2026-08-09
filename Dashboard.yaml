@@ -289,11 +289,9 @@ views:
         fill_container: true
         tap_action:
           action: perform-action
-          perform_action: input_select.select_option
-          target:
-            entity_id: input_select.interior_live_camera
+          perform_action: script.interior_camera_live
           data:
-            option: Living Room
+            camera: Living Room
       grid_options:
         columns: 12
         rows: 2
@@ -336,11 +334,9 @@ views:
         fill_container: true
         tap_action:
           action: perform-action
-          perform_action: input_select.select_option
-          target:
-            entity_id: input_select.interior_live_camera
+          perform_action: script.interior_camera_live
           data:
-            option: Kitchen
+            camera: Kitchen
       grid_options:
         columns: 12
         rows: 2
@@ -383,11 +379,9 @@ views:
         fill_container: true
         tap_action:
           action: perform-action
-          perform_action: input_select.select_option
-          target:
-            entity_id: input_select.interior_live_camera
+          perform_action: script.interior_camera_live
           data:
-            option: Basement
+            camera: Basement
       grid_options:
         columns: 12
         rows: 2

@@ -37,3 +37,9 @@ Date: 2026-08-06
 - Added tap-to-live behavior for Basement
 - Added tap-to-stop behavior for each interior camera
 - Standardized interior camera interaction using `input_select.interior_live_camera`
+
+## v1.4.3 — Interior Camera Auto Timeout
+- Added 10-minute automatic timeout for interior live cameras
+- Preserved tap-to-stop behavior
+- Restarted timeout when switching between interior cameras
+- Centralized interior camera timing in `script.interior_camera_live`
