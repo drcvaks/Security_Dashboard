@@ -18,17 +18,14 @@ views:
           cards:
           - type: markdown
             content: '## 🔔 FRONT DOOR • LIVE'
-          - type: picture-entity
-            entity: camera.front_live_view
-            camera_image: camera.front_live_view
-            camera_view: live
-            name: Front Door • LIVE
-            show_name: true
-            show_state: false
-            aspect_ratio: '16:8'
-            fit_mode: cover
-            tap_action:
-              action: more-info
+          - type: custom:webrtc-camera
+            url: front_door
+            server: http://10.0.0.55:1984/
+            mode: webrtc
+            media: video,audio
+            muted: false
+            ui: true
+            title: Front Door • LIVE
       - type: conditional
         conditions:
         - condition: state
@@ -266,17 +263,14 @@ views:
             title: 🔔 FRONT DOOR
             subtitle: Doorbell • Live View
             alignment: center
-          - type: picture-entity
-            entity: camera.front_live_view
-            camera_image: camera.front_live_view
-            camera_view: live
-            name: Front Door • LIVE
-            show_name: true
-            show_state: false
-            aspect_ratio: '16:9'
-            fit_mode: cover
-            tap_action:
-              action: more-info
+          - type: custom:webrtc-camera
+            url: front_door
+            server: http://10.0.0.55:1984/
+            mode: webrtc
+            media: video,audio
+            muted: false
+            ui: true
+            title: Front Door • LIVE
       - type: conditional
         conditions:
         - condition: state
