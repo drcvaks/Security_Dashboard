@@ -1,0 +1,41 @@
+alias: Ring Motion → Live Camera
+description: Show Rear, Front, or all cameras based on overlapping motion
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.door_motion
+      - binary_sensor.shed_motion
+      - binary_sensor.side_motion
+    from: "off"
+    to: "on"
+    id: Rear
+  - trigger: state
+    entity_id: binary_sensor.front_motion
+    from: "off"
+    to: "on"
+    id: Front
+conditions: []
+actions:
+  - variables:
+      current_view: "{{ states('input_select.live_camera') }}"
+      new_view: |-
+        {% if trigger.id == 'Rear' and current_view in ['Front', 'All'] %}
+          All
+        {% elif trigger.id == 'Front' and current_view in ['Rear', 'All'] %}
+          All
+        {% else %}
+          {{ trigger.id }}
+        {% endif %}
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.live_camera
+    data:
+      option: "{{ new_view | trim }}"
+  - delay:
+      minutes: 3
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.live_camera
+    data:
+      option: None
+mode: restart
