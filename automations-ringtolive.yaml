@@ -1,5 +1,5 @@
 alias: Ring Motion → Live Camera
-description: Show Rear, Front, or all cameras based on overlapping motion
+description: Immediately start Ring live streams and show cameras on motion
 triggers:
   - trigger: state
     entity_id:
@@ -26,16 +26,48 @@ actions:
         {% else %}
           {{ trigger.id }}
         {% endif %}
-  - action: input_select.select_option
-    target:
-      entity_id: input_select.live_camera
-    data:
-      option: "{{ new_view | trim }}"
+  - parallel:
+      - sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ trigger.id == 'Rear' }}"
+                sequence:
+                  - action: switch.turn_on
+                    target:
+                      entity_id:
+                        - switch.door_live_stream
+                        - switch.side_live_stream
+                        - switch.shed_live_stream
+              - conditions:
+                  - condition: template
+                    value_template: "{{ trigger.id == 'Front' }}"
+                sequence:
+                  - action: switch.turn_on
+                    target:
+                      entity_id:
+                        - switch.front_live_stream
+      - sequence:
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.live_camera
+            data:
+              option: "{{ new_view | trim }}"
   - delay:
       minutes: 3
-  - action: input_select.select_option
-    target:
-      entity_id: input_select.live_camera
-    data:
-      option: None
+  - parallel:
+      - sequence:
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.live_camera
+            data:
+              option: None
+      - sequence:
+          - action: switch.turn_off
+            target:
+              entity_id:
+                - switch.door_live_stream
+                - switch.side_live_stream
+                - switch.shed_live_stream
+                - switch.front_live_stream
 mode: restart
