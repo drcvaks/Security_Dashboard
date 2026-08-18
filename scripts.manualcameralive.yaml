@@ -1,0 +1,27 @@
+alias: Manual Ring Camera Live
+description: Show the rear camera group or Front live for 10 minutes
+fields:
+  camera:
+    name: Camera group
+    required: true
+    selector:
+      select:
+        options:
+          - Rear
+          - Front
+sequence:
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.live_camera
+    data:
+      option: "{{ camera }}"
+  - delay:
+      minutes: 10
+  - condition: template
+    value_template: "{{ states('input_select.live_camera') == camera }}"
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.live_camera
+    data:
+      option: None
+mode: restart
