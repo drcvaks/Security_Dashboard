@@ -1,5 +1,6 @@
 alias: Ring Motion → Live Camera
-description: Immediately start Ring live streams and show cameras on motion
+description: Immediately start Ring live streams, show cameras on motion, then refresh low-power snapshots when live view ends.
+
 triggers:
   - trigger: state
     entity_id:
@@ -9,16 +10,19 @@ triggers:
     from: "off"
     to: "on"
     id: Rear
+
   - trigger: state
     entity_id: binary_sensor.front_motion
     from: "off"
     to: "on"
     id: Front
+
 conditions: []
+
 actions:
   - variables:
       current_view: "{{ states('input_select.live_camera') }}"
-      new_view: |-
+      new_view: >-
         {% if trigger.id == 'Rear' and current_view in ['Front', 'All'] %}
           All
         {% elif trigger.id == 'Front' and current_view in ['Rear', 'All'] %}
@@ -26,6 +30,7 @@ actions:
         {% else %}
           {{ trigger.id }}
         {% endif %}
+
   - parallel:
       - sequence:
           - choose:
@@ -39,6 +44,7 @@ actions:
                         - switch.door_live_stream
                         - switch.side_live_stream
                         - switch.shed_live_stream
+
               - conditions:
                   - condition: template
                     value_template: "{{ trigger.id == 'Front' }}"
@@ -47,27 +53,38 @@ actions:
                     target:
                       entity_id:
                         - switch.front_live_stream
+
       - sequence:
           - action: input_select.select_option
             target:
               entity_id: input_select.live_camera
             data:
               option: "{{ new_view | trim }}"
+
   - delay:
       minutes: 3
-  - parallel:
-      - sequence:
-          - action: input_select.select_option
-            target:
-              entity_id: input_select.live_camera
-            data:
-              option: None
-      - sequence:
-          - action: switch.turn_off
-            target:
-              entity_id:
-                - switch.door_live_stream
-                - switch.side_live_stream
-                - switch.shed_live_stream
-                - switch.front_live_stream
+
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.live_camera
+    data:
+      option: None
+
+  - action: switch.turn_off
+    target:
+      entity_id:
+        - switch.door_live_stream
+        - switch.side_live_stream
+        - switch.shed_live_stream
+        - switch.front_live_stream
+
+  - delay:
+      seconds: 5
+
+  - action: button.press
+    target:
+      entity_id:
+        - button.door_take_snapshot
+        - button.shed_take_snapshot
+
 mode: restart

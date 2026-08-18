@@ -69,19 +69,23 @@ views:
                 entity: input_select.live_camera
                 state_not: All
               card:
-                type: picture-entity
-                entity: camera.door_snapshot
-                camera_image: camera.door_snapshot
-                name: Door
-                show_name: true
-                show_state: false
-                aspect_ratio: '16:8'
-                fit_mode: cover
-                tap_action:
-                  action: perform-action
-                  perform_action: script.manual_ring_camera_live
-                  data:
-                    camera: Rear
+                type: custom:config-template-card
+                entities:
+                - camera.door_snapshot
+                card:
+                  type: picture-entity
+                  entity: camera.door_snapshot
+                  camera_image: camera.door_snapshot
+                  name: Door
+                  show_name: true
+                  show_state: false
+                  aspect_ratio: '16:8'
+                  fit_mode: cover
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.manual_ring_camera_live
+                    data:
+                      camera: Rear
             - type: conditional
               conditions:
               - condition: or
@@ -116,19 +120,23 @@ views:
                 entity: input_select.live_camera
                 state_not: All
               card:
-                type: picture-entity
-                entity: camera.shed_snapshot
-                camera_image: camera.shed_snapshot
-                name: Shed
-                show_name: true
-                show_state: false
-                aspect_ratio: '16:8'
-                fit_mode: cover
-                tap_action:
-                  action: perform-action
-                  perform_action: script.manual_ring_camera_live
-                  data:
-                    camera: Rear
+                type: custom:config-template-card
+                entities:
+                - camera.shed_snapshot
+                card:
+                  type: picture-entity
+                  entity: camera.shed_snapshot
+                  camera_image: camera.shed_snapshot
+                  name: Shed
+                  show_name: true
+                  show_state: false
+                  aspect_ratio: '16:8'
+                  fit_mode: cover
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.manual_ring_camera_live
+                    data:
+                      camera: Rear
             - type: conditional
               conditions:
               - condition: or
@@ -163,19 +171,23 @@ views:
                 entity: input_select.live_camera
                 state_not: All
               card:
-                type: picture-entity
-                entity: camera.front_snapshot
-                camera_image: camera.front_snapshot
-                name: Front
-                show_name: true
-                show_state: false
-                aspect_ratio: '16:8'
-                fit_mode: cover
-                tap_action:
-                  action: perform-action
-                  perform_action: script.manual_ring_camera_live
-                  data:
-                    camera: Front
+                type: custom:config-template-card
+                entities:
+                - camera.front_snapshot
+                card:
+                  type: picture-entity
+                  entity: camera.front_snapshot
+                  camera_image: camera.front_snapshot
+                  name: Front
+                  show_name: true
+                  show_state: false
+                  aspect_ratio: '16:8'
+                  fit_mode: cover
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.manual_ring_camera_live
+                    data:
+                      camera: Front
             - type: conditional
               conditions:
               - condition: or
@@ -210,19 +222,23 @@ views:
                 entity: input_select.live_camera
                 state_not: All
               card:
-                type: picture-entity
-                entity: camera.side_snapshot
-                camera_image: camera.side_snapshot
-                name: Side
-                show_name: true
-                show_state: false
-                aspect_ratio: '16:8'
-                fit_mode: cover
-                tap_action:
-                  action: perform-action
-                  perform_action: script.manual_ring_camera_live
-                  data:
-                    camera: Rear
+                type: custom:config-template-card
+                entities:
+                - camera.side_snapshot
+                card:
+                  type: picture-entity
+                  entity: camera.side_snapshot
+                  camera_image: camera.side_snapshot
+                  name: Side
+                  show_name: true
+                  show_state: false
+                  aspect_ratio: '16:8'
+                  fit_mode: cover
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.manual_ring_camera_live
+                    data:
+                      camera: Rear
             - type: conditional
               conditions:
               - condition: or
@@ -290,28 +306,36 @@ views:
             columns: 2
             square: false
             cards:
-            - type: picture-entity
-              entity: camera.back_steps_snapshot
-              camera_image: camera.back_steps_snapshot
-              name: Back Steps
-              show_name: true
-              show_state: false
-              camera_view: auto
-              aspect_ratio: '16:9'
-              fit_mode: cover
-              tap_action:
-                action: more-info
-            - type: picture-entity
-              entity: camera.deck_snapshot
-              camera_image: camera.deck_snapshot
-              name: Deck
-              show_name: true
-              show_state: false
-              camera_view: auto
-              aspect_ratio: '16:9'
-              fit_mode: cover
-              tap_action:
-                action: more-info
+            - type: custom:config-template-card
+              entities:
+              - camera.back_steps_snapshot
+              card:
+                type: picture-entity
+                entity: camera.back_steps_snapshot
+                camera_image: camera.back_steps_snapshot
+                name: Back Steps
+                show_name: true
+                show_state: false
+                camera_view: auto
+                aspect_ratio: '16:9'
+                fit_mode: cover
+                tap_action:
+                  action: more-info
+            - type: custom:config-template-card
+              entities:
+              - camera.deck_snapshot
+              card:
+                type: picture-entity
+                entity: camera.deck_snapshot
+                camera_image: camera.deck_snapshot
+                name: Deck
+                show_name: true
+                show_state: false
+                camera_view: auto
+                aspect_ratio: '16:9'
+                fit_mode: cover
+                tap_action:
+                  action: more-info
           - type: custom:mushroom-title-card
             title: Interior Cameras
             subtitle: Tap a camera to view live
