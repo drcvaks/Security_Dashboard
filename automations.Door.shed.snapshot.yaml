@@ -1,0 +1,52 @@
+alias: Door & Shed Daytime Snapshot Schedule
+description: >-
+  Keep Door and Shed on 1-minute snapshots from 7 AM to 10 PM and restore the
+  correct mode after Home Assistant restarts
+triggers:
+  - trigger: time
+    at: "07:00:00"
+    id: start
+  - trigger: time
+    at: "22:00:00"
+    id: stop
+  - trigger: homeassistant
+    event: start
+    id: startup
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: time
+            after: "06:59:59"
+            before: "22:00:00"
+        sequence:
+          - action: select.select_option
+            target:
+              entity_id:
+                - select.door_snapshot_mode
+                - select.shed_snapshot_mode
+            data:
+              option: Interval
+          - action: number.set_value
+            target:
+              entity_id:
+                - number.door_snapshot_interval
+                - number.shed_snapshot_interval
+            data:
+              value: 60
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: time
+                after: "21:59:59"
+              - condition: time
+                before: "07:00:00"
+        sequence:
+          - action: select.select_option
+            target:
+              entity_id:
+                - select.door_snapshot_mode
+                - select.shed_snapshot_mode
+            data:
+              option: Auto
+mode: single

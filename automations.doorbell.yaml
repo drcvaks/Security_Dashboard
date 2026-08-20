@@ -1,0 +1,18 @@
+alias: Doorbell → Full Screen
+description: Show the front door live for 30 seconds when the Ring doorbell is pressed
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.front_ding
+    from: "off"
+    to: "on"
+conditions: []
+actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.doorbell_takeover
+  - delay:
+      seconds: 30
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.doorbell_takeover
+mode: restart

@@ -1,0 +1,29 @@
+alias: Interior Camera Live
+description: Show a selected interior camera live for 10 minutes
+fields:
+  camera:
+    name: Camera
+    required: true
+    selector:
+      select:
+        options:
+          - Living Room
+          - Kitchen
+          - Basement
+sequence:
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.interior_live_camera
+    data:
+      option: "{{ camera }}"
+  - delay:
+      minutes: 10
+  - condition: template
+    value_template: |
+      {{ states('input_select.interior_live_camera') == camera }}
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.interior_live_camera
+    data:
+      option: None
+mode: restart
