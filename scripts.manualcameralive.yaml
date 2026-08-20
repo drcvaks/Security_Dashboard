@@ -1,5 +1,6 @@
 alias: Manual Ring Camera Live
-description: Show the rear camera group or Front live for 10 minutes
+description: Show the rear camera group or Front live for 10 minutes and refresh low-power snapshots afterward
+
 fields:
   camera:
     name: Camera group
@@ -9,19 +10,87 @@ fields:
         options:
           - Rear
           - Front
+
 sequence:
+  # Start the appropriate Ring live stream(s)
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ camera == 'Rear' }}"
+        sequence:
+          - action: switch.turn_on
+            target:
+              entity_id:
+                - switch.door_live_stream
+                - switch.side_live_stream
+                - switch.shed_live_stream
+
+      - conditions:
+          - condition: template
+            value_template: "{{ camera == 'Front' }}"
+        sequence:
+          - action: switch.turn_on
+            target:
+              entity_id:
+                - switch.front_live_stream
+
+  # Show the live camera(s) on the dashboard
   - action: input_select.select_option
     target:
       entity_id: input_select.live_camera
     data:
       option: "{{ camera }}"
+
+  # Keep manual live view active for 10 minutes
   - delay:
       minutes: 10
+
+  # Only shut it down if this manual view is still active
   - condition: template
     value_template: "{{ states('input_select.live_camera') == camera }}"
+
+  # Return dashboard to snapshot view
   - action: input_select.select_option
     target:
       entity_id: input_select.live_camera
     data:
       option: None
+
+  # Stop the appropriate live stream(s)
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ camera == 'Rear' }}"
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id:
+                - switch.door_live_stream
+                - switch.side_live_stream
+                - switch.shed_live_stream
+
+      - conditions:
+          - condition: template
+            value_template: "{{ camera == 'Front' }}"
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id:
+                - switch.front_live_stream
+
+  # Give Door and Shed time to leave live-stream mode
+  - delay:
+      seconds: 5
+
+  # After Rear live view, update the two solar/battery camera snapshots
+  - if:
+      - condition: template
+        value_template: "{{ camera == 'Rear' }}"
+    then:
+      - action: button.press
+        target:
+          entity_id:
+            - button.door_take_snapshot
+            - button.shed_take_snapshot
+
 mode: restart
